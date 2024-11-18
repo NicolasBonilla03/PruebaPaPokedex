@@ -5,7 +5,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 abstract class BaseService : ViewModel() {
-    private val URL_DOMAIN: String = "https://fakestoreapi.com"
+    private val URL_DOMAIN: String = " https://pokeapi.co/api/v2"
 
     fun getRetrofit(): Retrofit {
         return Retrofit.Builder()

@@ -1,22 +1,22 @@
 package com.example.myapplicationwebservice.services.controllers
 
 import androidx.lifecycle.viewModelScope
-import com.example.myapplicationwebservice.services.endpoints.ProductsEndpoints
-import com.example.myapplicationwebservice.services.models.Product
+import com.example.myapplicationwebservice.services.models.Pokemon
+import com.example.pruebapapokedex.network.ApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ProductsServices : BaseService() {
 
-    fun getAllProducts(
-        success: (products: List<Product>) -> Unit,
+    fun getRegion(
+        success: (regions: List<Pokemon>) -> Unit,
         error: () -> Unit
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response = getRetrofit()
-                    .create(ProductsEndpoints::class.java)
-                    .getAllProducts()
+                    .create(ApiService::class.java)
+                    .getRegions()
                 val data = response.body()
                 when (data) {
                     null -> success(emptyList())
