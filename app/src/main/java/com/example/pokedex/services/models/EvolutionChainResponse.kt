@@ -7,7 +7,10 @@ data class EvolutionChainResponse(
 
 data class EvolutionChain(
     val species: PokemonSpecies,
-    val evolves_to: List<EvolutionChain> // Lista de evoluciones
-)
+    val evolves_to: List<EvolutionChain>,
+    val evolvesTo: List<Evolution>
+) {
+
+}
 
 // PokemonSpecies se define igual que en PokemonDetailResponse

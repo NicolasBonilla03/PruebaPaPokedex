@@ -2,6 +2,7 @@ package com.example.pokedex.services.endpoints
 
 import com.example.pokedex.services.models.Evolution
 import com.example.pokedex.services.models.Pokemon
+import com.example.pokedex.services.models.PokemonDetailsResponse
 import com.example.pokedex.services.models.Region
 import com.example.pruebapapokedex.network.ApiService
 
@@ -12,7 +13,7 @@ class PokemonRepository  constructor(
     // ... (funciones existentes)
 
     suspend fun getRegions(): List<Region> {
-
+        
     }
 
     suspend fun getPokemonByRegion(regionName: String): List<Pokemon> {
@@ -20,12 +21,12 @@ class PokemonRepository  constructor(
         return apiService.getPokemonByRegion(regionName).body()?.results ?: emptyList()
     }
 
-    suspend fun getPokemonDetails(pokemonId: Int): Pokemon {
+    suspend fun getPokemonDetails(pokemonId: Int): PokemonDetailsResponse? {
         // ... (lógica para obtener detalles del Pokémon de la API)
         return apiService.getPokemonDetails(pokemonId).body()
     }
 
-    suspend fun getEvolutionChain(pokemonId: Int): List<Evolution> {
+    suspend fun getEvolutionChain(pokemonId: Int): List<Evolution>? {
         // ... (lógica para obtener cadena de evolución del Pokémon de la API)
         return apiService.getEvolutionChain(pokemonId).body()?.chain?.evolvesTo
     }
