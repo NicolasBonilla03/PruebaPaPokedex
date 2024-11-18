@@ -1,32 +1,26 @@
-package com.example.pruebapapokedex.network
-
-import androidx.compose.ui.graphics.Path
-import com.example.pokedex.services.models.EvolutionChainResponse
-import com.example.pokedex.services.models.PokemonDetailsResponse
-import com.example.pokedex.services.models.PokemonListResponse
-import com.example.pokedex.services.models.PokemonTypeResponse
+import com.example.pokedex.services.models.EvolutionChain
+import com.example.pokedex.services.models.PokemonInfo
+import com.example.pokedex.services.models.Region
 import com.example.pokedex.services.models.RegionResponse
 import retrofit2.Response
 import retrofit2.http.GET
-
-// ... (imports)
+import retrofit2.http.Path
 
 interface ApiService {
 
-    // ... (endpoints existentes)
+    // Obtener todas las regiones
+    @GET("/region")
+    suspend fun getAllRegions(): Response<Region>
 
-    @GET("region/")
-    suspend fun getRegions(): Response<RegionResponse>
+    // Obtener los pokémons por región
+    @GET("/pokedex/{region}/")
+    suspend fun getPokemonsByRegion(@Path("region") region: String): Response<PokedexResponse>
 
-    @GET("pokedex/{regionName}/")
-    suspend fun getPokemonByRegion(@Path("regionName") regionName: String): Response<PokemonListResponse>
+    // Obtener la información de un Pokémon
+    @GET("/pokemon/{nameOrId}/")
+    suspend fun getPokemonInfo(@Path("nameOrId") nameOrId: String): Response<PokemonInfo>
 
-    @GET("pokemon/{id}/")
-    suspend fun getPokemonDetails(@Path("id") id: Int): Response<PokemonDetailsResponse>
-
-    @GET("type/")
-    suspend fun getPokemonTypes(): Response<PokemonTypeResponse>
-
-    @GET("evolution-chain/{id}/")
-    suspend fun getEvolutionChain(@Path("id") id: Int): Response<EvolutionChainResponse>
+    // Obtener la cadena de evolución de un Pokémon
+    @GET("/evolution-chain/{id}/")
+    suspend fun getEvolutionChain(@Path("id") id: Int): Response<EvolutionChain>
 }

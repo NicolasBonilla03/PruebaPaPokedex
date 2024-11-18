@@ -1,5 +1,6 @@
 package com.example.pokedex
 
+import PokemonDriverAdapter
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -21,35 +22,31 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.myapplicationwebservice.R
 import com.example.pokedex.components.ImageWeb
-import com.example.pokedex.dataBases.entities.UsuarioEntity
-import com.example.pokedex.dataBases.viewsModels.UsuaiosViewModel
-import com.example.pokedex.services.driverAdapters.ProductsDiverAdapter
-import com.example.pokedex.services.models.Product
+import com.example.pokedex.dataBases.viewsModels.PokemonViewModel
+
+
+import com.example.pokedex.services.models.Region
 import com.example.pokedex.ui.theme.MyApplicationWebServiceTheme
 
 class MainActivity : ComponentActivity() {
-    val productsDiverAdapter by lazy { ProductsDiverAdapter() }
-    val usuariosViewModel by lazy { UsuaiosViewModel(this) }
+    private val pokemonDriverAdapter by lazy { PokemonDriverAdapter() }
+    val pokemonViewModel by lazy { PokemonViewModel(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
         setContent {
-            usuariosViewModel.saveNewUser(UsuarioEntity(
-                id = 0,
-                name = "Pepito",
-                email = "pepito@test.com"
-            ))
-            var products by remember { mutableStateOf<List<Product>>(emptyList()) }
-            var loadProducts by remember { mutableStateOf<Boolean>(false) }
-            if (!loadProducts) {
-                this.productsDiverAdapter.allProducts(
-                    loadData = {
-                        products = it
-                        loadProducts = true
+            var regions by remember { mutableStateOf(emptyList<Region>()) }
+            var loadProducts by remember { mutableStateOf(false) }
 
+            if (!loadProducts) {
+                this.pokemonDriverAdapter.allRegions( // Llamar a allRegions directamente
+                    loadData = { regionsList ->
+                        regions = regionsList
+                        loadProducts = true
                     },
                     errorData = {
                         println("Error en el servicio")
@@ -57,7 +54,7 @@ class MainActivity : ComponentActivity() {
                     }
                 )
             }
-            ProductsScreen(products = products, onClickProduct = { goToDetail() })
+            ProductsScreen(regions = regions, onClickProduct = { goToDetail() })
         }
     }
 
@@ -69,7 +66,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun ProductsScreen(
-    products: List<Product>,
+    regions: List<Region>,
     onClickProduct: () -> Unit
 ) {
     MyApplicationWebServiceTheme {
@@ -81,25 +78,18 @@ fun ProductsScreen(
             Column(modifier = Modifier.padding(innerPadding)) {
                 LazyColumn {
                     items(
-                        items = products,
-                        key = { it.id }
+                        items = regions,
+                        key = { it.name }
                     ) {
                         Column {
-                            ImageWeb(url = it.image)
-                            Row {
-                                Text(text = stringResource(id = R.string.price))
-                                Text(text = "${it.price}")
-                            }
+                            ImageWeb(url = it.url)
+
                             Row {
                                 Text(text = stringResource(id = R.string.title))
-                                Text(text = "${it.title}")
+                                Text(text = it.name)
                             }
-                            Row {
-                                Text(text = stringResource(id = R.string.category))
-                                Text(text = "${it.category}")
-                            }
-                            Button(onClick = { onClickProduct() }) {
-                                Text(text = stringResource(id = R.string.go_to_product))
+                            Button(onClick = onClickProduct) {
+                                Text(text = stringResource(id = R.string.title))
                             }
                         }
                     }
@@ -112,7 +102,7 @@ fun ProductsScreen(
 @Composable
 fun ProductsScreenPreview() {
     ProductsScreen(
-        products = emptyList(),
+        regions = emptyList(),
         onClickProduct = {}
     )
 }

@@ -21,7 +21,7 @@ class ConexionDB {
             val dataBase = Room.databaseBuilder(
                 context,
                 AppDataBase::class.java,
-                "mi_base_datos_db"
+                "Pokemones_Favoritos"
             )
             return  dataBase.build()
         }

@@ -3,7 +3,7 @@
     <string name="title_products">Tienda</string>
     <string name="price">Precio:</string>
     <string name="category">Categoría:</string>
-    <string name="title">Titulo:</string>
+    <string name="title">Region:</string>
     <string-array name="lista">
         <item>Opción 1</item>
         <item>Opción 2</item>

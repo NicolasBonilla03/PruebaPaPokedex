@@ -2,12 +2,12 @@ package com.example.pokedex.services.models
 
 data class RegionResponse(
     val count: Int,
-    val next: String?,
-    val previous: String?,
-    val results: List<RegionResult>
+    val results: List<Region>
 )
 
-data class RegionResult(
+data class Region(
     val name: String,
     val url: String
 )
+
+

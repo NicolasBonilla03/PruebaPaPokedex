@@ -2,15 +2,17 @@ package com.example.pokedex.dataBases.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.example.pokedex.dataBases.daos.UsuariosDao
-import com.example.pokedex.dataBases.entities.UsuarioEntity
+import com.example.pokedex.dataBases.daos.FavoritePokemonDao
+
+import com.example.pokedex.dataBases.entities.FavoritePokemon
+
 
 @Database(
     entities = [
-        UsuarioEntity::class
+        FavoritePokemon::class
     ],
     version = 1
 )
 abstract class AppDataBase : RoomDatabase() {
-    abstract fun usuariosDao(): UsuariosDao
+    abstract fun FavoritoDao(): FavoritePokemonDao
 }
